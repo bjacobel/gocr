@@ -1,0 +1,21 @@
+{
+	"ImportPath": "github.com/bjacobel/gocr",
+	"GoVersion": "go1.3",
+	"Deps": [
+		{
+			"ImportPath": "code.google.com/p/cascadia",
+			"Comment": "null-30",
+			"Rev": "4f03c71bc42ba0015a68bea86422f0ecbb71bf70"
+		},
+		{
+			"ImportPath": "code.google.com/p/go.net/html",
+			"Comment": "null-143",
+			"Rev": "6a58d15273e127ff2697fa5a848435af0ea1255d"
+		},
+		{
+			"ImportPath": "github.com/PuerkitoBio/goquery",
+			"Comment": "v0.3.2-26-g330b1c8",
+			"Rev": "330b1c81328751d7a27518abe41ea160d4652a07"
+		}
+	]
+}
