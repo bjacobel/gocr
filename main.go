@@ -7,6 +7,9 @@ import (
 	"regexp"
 )
 
+var urls, _ = regexp.Compile("(http(s)?://)?([\\w-]+\\.)+[\\w-]+(/[\\w- ;,./?%&=]*)?")
+var resizer, _ = regexp.Compile("236")
+
 func main() {
 	var doc *goquery.Document
 	var e error
@@ -19,12 +22,13 @@ func main() {
 		log.Fatal(e)
 	}
 
-	urls, _ := regexp.Compile("(http(s)?://)?([\\w-]+\\.)+[\\w-]+(/[\\w- ;,./?%&=]*)?")
-	resizer, _ := regexp.Compile("236")
-
 	doc.Find(".fadeContainer").Each(func(i int, s *goquery.Selection) {
-		html, _ := (*s).Html()
-		url := string(resizer.ReplaceAll(urls.Find([]byte(html)), []byte("736")))
-		fmt.Println(url)
+		go getImgSrcFromNode(s)
+		fmt.Println()
 	})
+}
+
+func getImgSrcFromNode(s *goquery.Selection) string {
+	html, _ := (*s).Html()
+	return string(resizer.ReplaceAll(urls.Find([]byte(html)), []byte("736")))
 }
