@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/dchest/uniuri"
+	"github.com/otiai10/gosseract"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -24,22 +25,23 @@ func main() {
 	if doc, e := goquery.NewDocument("http://www.pinterest.com/search/pins/?q=" + search); e != nil {
 		log.Fatal(e)
 	} else {
+
+		client, _ := gosseract.NewClient()
+
 		doc.Find(".fadeContainer").Each(func(i int, s *goquery.Selection) {
 			wg.Add(1)
-			go getImgFromNode(s, &wg)
+			go OcrFromNode(s, &wg, client)
 		})
 	}
 
 	wg.Wait()
 }
 
-func getImgFromNode(s *goquery.Selection, wg *sync.WaitGroup) {
+func OcrFromNode(s *goquery.Selection, wg *sync.WaitGroup, client *gosseract.Client) {
 	html, err := (*s).Html()
 	handleErr(err)
 
 	imgLoc := string(resizer.ReplaceAll(urls.Find([]byte(html)), []byte("736")))
-
-	fmt.Println("Downloading " + imgLoc)
 
 	imgData, err := http.Get(imgLoc)
 	handleErr(err)
@@ -54,10 +56,13 @@ func getImgFromNode(s *goquery.Selection, wg *sync.WaitGroup) {
 
 	path := "images/" + uniuri.New() + ".jpg"
 
-	fmt.Println("Saving to " + path)
-
 	err = ioutil.WriteFile(path, body, 0644)
 	handleErr(err)
+
+	out, _ := client.Src(path).Out()
+
+	fmt.Println("---------------\nText OCRed from " + imgLoc + ":\n")
+	fmt.Println(out + "\n")
 
 	wg.Done()
 }

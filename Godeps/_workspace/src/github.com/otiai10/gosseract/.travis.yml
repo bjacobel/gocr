@@ -1,0 +1,12 @@
+language: go
+
+go:
+    - 1.2
+    - tip
+
+before_install:
+    - sudo apt-get install tesseract-ocr
+before_script:
+    - go get github.com/otiai10/mint
+script:
+    - go test -v ./...

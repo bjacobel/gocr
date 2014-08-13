@@ -16,6 +16,15 @@
 			"ImportPath": "github.com/PuerkitoBio/goquery",
 			"Comment": "v0.3.2-26-g330b1c8",
 			"Rev": "330b1c81328751d7a27518abe41ea160d4652a07"
+		},
+		{
+			"ImportPath": "github.com/dchest/uniuri",
+			"Rev": "bc4af7603a3e0ce9d58009f82fca481555182e1c"
+		},
+		{
+			"ImportPath": "github.com/otiai10/gosseract",
+			"Comment": "1.0-4-ge86191e",
+			"Rev": "e86191ef0f01f08d58ce74e18f379ce74ba618fe"
 		}
 	]
 }
